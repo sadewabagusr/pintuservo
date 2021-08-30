@@ -1,0 +1,45 @@
+#include <Servo.h>
+#define led 13
+#define trigpin 8
+#define echopin 7
+
+long duration,distance;
+Servo servo_test;
+
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(led,OUTPUT);
+  pinMode(trigpin,OUTPUT);
+  pinMode(echopin,INPUT);
+  servo_test.attach(9);
+  Serial.begin(9600);
+  digitalWrite(led,LOW);
+  servo_test.write(0);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  digitalWrite(trigpin,LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigpin,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigpin,LOW);
+  duration=pulseIn(echopin,HIGH);
+  distance=duration/58.2;
+
+  if(distance <10 && distance >0)
+  { 
+  Serial.println(distance);
+  digitalWrite(led,HIGH);
+  servo_test.write(90);
+  delay(2000);
+  }
+  else 
+    {
+      digitalWrite(led,LOW);
+      servo_test.write(0);  
+    }
+  
+  
+}
